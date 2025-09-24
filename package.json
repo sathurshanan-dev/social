@@ -1,0 +1,28 @@
+{
+  "name": "Social",
+  "version": "1.0.0",
+  "description": "Social networking web application",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "client": "npm run dev --prefix client",
+    "server": "nodemon server/index",
+    "dev": "concurrently \"npm run server \" \"npm run client\""
+  },
+  "author": "Sathurshanan",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.2",
+    "mysql2": "^3.15.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10"
+  }
+}
