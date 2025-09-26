@@ -1,34 +1,16 @@
 import { api_slice } from './api';
-import { USERS_URL } from '../constants';
+import { POSTS_URL } from '../constants';
 
-export const user_api_slice = api_slice.injectEndpoints({
+export const post_api_slice = api_slice.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation({
-      query: (params) => ({
-        url: `${USERS_URL}/register`,
-        method: 'POST',
-        body: params,
+    posts: builder.query({
+      query: () => ({
+        url: POSTS_URL,
       }),
-    }),
-    login: builder.mutation({
-      query: (params) => ({
-        url: `${USERS_URL}/login`,
-        method: 'POST',
-        body: params,
-      }),
-    }),
-    profile: builder.mutation({
-      query: ({ token, data }) => ({
-        url: `${USERS_URL}/profile`,
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: data,
-      }),
+      keepUnusedDataFor: 5,
+      providesTags: ['Posts'],
     }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useProfileMutation } =
-  user_api_slice;
+export const { usePostsQuery } = post_api_slice;
