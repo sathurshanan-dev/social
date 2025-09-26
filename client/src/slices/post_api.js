@@ -10,7 +10,17 @@ export const post_api_slice = api_slice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ['Posts'],
     }),
+    createPost: builder.mutation({
+      query: ({ token, text }) => ({
+        url: `${POSTS_URL}/new`,
+        method: 'POST',
+        body: text,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { usePostsQuery } = post_api_slice;
+export const { usePostsQuery, useCreatePostMutation } = post_api_slice;

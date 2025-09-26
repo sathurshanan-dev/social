@@ -8,7 +8,7 @@ const base_query = fetchBaseQuery({
 const base_query_with_auth = async (args, api, extra) => {
   const result = await base_query(args, api, extra);
   if (result.error && result.error.status === 401) {
-    api.dispatch(logout());
+    // api.dispatch(logout());
   }
   return result;
 };
