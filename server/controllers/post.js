@@ -7,8 +7,6 @@ const posts = async_handler(async (req, res) => {
 });
 
 const create_post = async_handler(async (req, res) => {
-  console.log(req.body);
-
   const post = await Post.create({
     user: req.user._id,
     text: req.body.text,

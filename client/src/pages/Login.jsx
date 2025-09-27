@@ -5,12 +5,12 @@ import { useLoginMutation } from '../slices/users_api';
 import { set_login } from '../slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router';
+import Message from '../components/Message';
 
 const Login = () => {
   const [email, set_email] = useState('');
   const [password, set_password] = useState('');
   const [error, set_error] = useState('');
-  console.log(error);
 
   const navigate = useNavigate();
 
@@ -18,12 +18,12 @@ const Login = () => {
 
   const { user_info } = useSelector((state) => state.auth);
 
-  const [login, { isLoading }] = useLoginMutation({ email, password });
+  const [login, { isLoading }] = useLoginMutation();
 
   const submit_handler = async (event) => {
     event.preventDefault();
     try {
-      const res = await login({ email, password });
+      const res = await login({ email, password }).unwrap();
       dispatch(set_login({ ...res.data }));
       navigate('/');
     } catch (err) {
@@ -40,6 +40,7 @@ const Login = () => {
   return (
     <FormContainer>
       <h1 className="text-center">Sign in</h1>
+      {error && <Message variant="danger">{error}</Message>}
       <Form onSubmit={submit_handler}>
         <Form.Group controlId="email" className="my-2">
           <Form.Label>Email</Form.Label>

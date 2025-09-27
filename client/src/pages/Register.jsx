@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router';
 import { set_login } from '../slices/auth';
+import Message from '../components/Message';
 
 const Register = () => {
   const [name, set_name] = useState('');
@@ -19,16 +20,12 @@ const Register = () => {
 
   const { user_info } = useSelector((state) => state.auth);
 
-  const [register, { isLoading }] = useRegisterMutation({
-    name,
-    email,
-    password,
-  });
+  const [register, { isLoading }] = useRegisterMutation();
 
   const submit_handler = async (event) => {
     event.preventDefault();
     try {
-      const res = await register({ name, email, password });
+      const res = await register({ name, email, password }).unwrap();
       dispatch(set_login({ ...res.data }));
       navigate('/');
     } catch (err) {
@@ -45,6 +42,7 @@ const Register = () => {
   return (
     <FormContainer>
       <h1 className="text-center">Create your account</h1>
+      {error && <Message variant="danger">{error}</Message>}
       <Form onSubmit={submit_handler}>
         <Form.Group controlId="name" className="my-2">
           <Form.Label>Name</Form.Label>

@@ -17,7 +17,10 @@ const Post = () => {
   const submit_handler = async (event) => {
     event.preventDefault();
     try {
-      await createPost({ token: user_info.token, text });
+      await createPost({
+        token: user_info.token,
+        data: text,
+      }).unwrap();
       navigate('/');
     } catch (err) {
       console.error(err?.data?.message || err.error);

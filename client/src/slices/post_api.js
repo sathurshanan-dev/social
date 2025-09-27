@@ -11,13 +11,13 @@ export const post_api_slice = api_slice.injectEndpoints({
       providesTags: ['Posts'],
     }),
     createPost: builder.mutation({
-      query: ({ token, text }) => ({
+      query: (params) => ({
         url: `${POSTS_URL}/new`,
         method: 'POST',
-        body: text,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${params.token}`,
         },
+        body: params.data,
       }),
     }),
   }),
