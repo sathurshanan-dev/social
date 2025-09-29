@@ -32,6 +32,15 @@ export const post_api_slice = api_slice.injectEndpoints({
         body: { text },
       }),
     }),
+    deletePost: builder.mutation({
+      query: ({ token, id }) => ({
+        url: `${POSTS_URL}/${id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    }),
     like: builder.mutation({
       query: ({ token, id }) => ({
         url: `${POSTS_URL}/${id}/like`,
@@ -49,5 +58,6 @@ export const {
   usePostsQuery,
   usePostQuery,
   useCreatePostMutation,
+  useDeletePostMutation,
   useLikeMutation,
 } = post_api_slice;

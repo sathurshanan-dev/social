@@ -8,7 +8,12 @@ const posts = async_handler(async (req, res) => {
 
 const post = async_handler(async (req, res) => {
   const post = await Post.findById(req.params.id);
-  res.json(post);
+  if (post) {
+    res.json(post);
+  } else {
+    res.status(404);
+    throw new Error('Post not found');
+  }
 });
 
 const create_post = async_handler(async (req, res) => {
@@ -21,6 +26,16 @@ const create_post = async_handler(async (req, res) => {
     text: req.body.text,
   });
   res.status(201).json(post);
+});
+
+const delete_post = async_handler(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (post) {
+    await Post.findByIdAndDelete(req.params.id);
+    res.json('Post deleted successfully');
+  } else {
+    throw new Error('Post not found');
+  }
 });
 
 const like = async_handler(async (req, res) => {
@@ -41,4 +56,4 @@ const like = async_handler(async (req, res) => {
   }
 });
 
-export { posts, post, create_post, like };
+export { posts, post, create_post, delete_post, like };
