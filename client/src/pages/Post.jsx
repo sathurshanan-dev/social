@@ -1,51 +1,20 @@
-import { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
-import { useCreatePostMutation } from '../slices/post_api';
-import { useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
+import PostCard from '../components/PostCard';
+import { usePostQuery } from '../slices/post_api';
 
 const Post = () => {
-  const [text, set_text] = useState();
-
-  const navigate = useNavigate();
+  const { id } = useParams();
 
   const { user_info } = useSelector((state) => state.auth);
 
-  const [createPost, { isLoading }] = useCreatePostMutation();
+  const { data, isLoading, error } = usePostQuery({
+    token: user_info.token,
+    id,
+  });
+  console.log(data);
 
-  const submit_handler = async (event) => {
-    event.preventDefault();
-    try {
-      await createPost({
-        token: user_info.token,
-        data: text,
-      }).unwrap();
-      navigate('/');
-    } catch (err) {
-      console.error(err?.data?.message || err.error);
-    }
-  };
-
-  return (
-    <FormContainer>
-      <Form onSubmit={submit_handler}>
-        <Form.Group controlId="bio" className="my-2">
-          <Form.Label className="text-center my-3">Create Post</Form.Label>
-          <Form.Control
-            as="textarea"
-            placeholder="Write your post content here..."
-            rows={12}
-            alue={text}
-            onChange={(event) => set_text(event.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Button disabled={isLoading} type="submit">
-          Post
-        </Button>
-      </Form>
-    </FormContainer>
-  );
+  return <h1>Post page</h1>;
 };
 
 export default Post;

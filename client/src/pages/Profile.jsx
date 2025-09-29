@@ -103,7 +103,6 @@ const Profile = () => {
             onChange={(event) => set_password(event.target.value)}
           ></Form.Control>
         </Form.Group>
-
         <Button
           type="submit"
           variant="primary"

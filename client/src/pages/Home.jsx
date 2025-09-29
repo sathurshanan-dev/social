@@ -6,15 +6,14 @@ import { usePostsQuery } from '../slices/post_api';
 import { Stack } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import Post from '../components/Post';
+import PostCard from '../components/PostCard';
 
 const Landing = () => {
   const { user_info } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
 
-  const { data, isLoading, error } = usePostsQuery();
-  console.log(data);
+  const { data, isLoading, error } = usePostsQuery({token: user_info.token});
 
   useEffect(() => {
     if (!user_info) {
@@ -31,7 +30,7 @@ const Landing = () => {
       ) : (
         <Stack gap={5}>
           {data.map((post) => (
-            <Post post={post} key={post._id} />
+            <PostCard post={post} key={post._id} />
           ))}
         </Stack>
       )}

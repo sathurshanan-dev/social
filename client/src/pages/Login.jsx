@@ -24,7 +24,7 @@ const Login = () => {
     event.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
-      dispatch(set_login({ ...res.data }));
+      dispatch(set_login({ ...res }));
       navigate('/');
     } catch (err) {
       set_error(err?.data?.message || err.error);

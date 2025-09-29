@@ -26,7 +26,7 @@ const Register = () => {
     event.preventDefault();
     try {
       const res = await register({ name, email, password }).unwrap();
-      dispatch(set_login({ ...res.data }));
+      dispatch(set_login({ ...res }));
       navigate('/');
     } catch (err) {
       set_error(err?.data?.message || err.error);

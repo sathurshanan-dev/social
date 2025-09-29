@@ -11,12 +11,7 @@ const post_schema = new mongoose.Schema(
       required: true,
     },
     likes: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-        },
-      },
+      mongoose.Schema.Types.ObjectId,
     ],
     comments: [
       {

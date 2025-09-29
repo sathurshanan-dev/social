@@ -6,7 +6,16 @@ const posts = async_handler(async (req, res) => {
   res.json(posts);
 });
 
+const post = async_handler(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  res.json(post);
+});
+
 const create_post = async_handler(async (req, res) => {
+  if (!req.body.text) {
+    res.status(400);
+    throw new Error('Field cannot be empty');
+  }
   const post = await Post.create({
     user: req.user._id,
     text: req.body.text,
@@ -14,4 +23,22 @@ const create_post = async_handler(async (req, res) => {
   res.status(201).json(post);
 });
 
-export { posts, create_post };
+const like = async_handler(async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (post) {
+    if (post.likes.includes(req.user._id)) {
+      post.likes = post.likes.filter(
+        (id) => id.toString() != req.user._id.toString()
+      );
+    } else {
+      post.likes.push(req.user._id);
+    }
+    await post.save();
+    res.json(post);
+  } else {
+    res.status(404);
+    throw new Error('Post not found');
+  }
+});
+
+export { posts, post, create_post, like };
