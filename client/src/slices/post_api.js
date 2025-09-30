@@ -40,6 +40,7 @@ export const post_api_slice = api_slice.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
+      invalidatesTags: ['Posts'],
     }),
     like: builder.mutation({
       query: ({ token, id }) => ({

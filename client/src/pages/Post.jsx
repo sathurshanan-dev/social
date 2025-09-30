@@ -10,7 +10,7 @@ import Message from '../components/Message';
 import { useDeletePostMutation } from '../slices/post_api';
 
 const Post = () => {
-  const [err, set_err] = useState('');
+  const [message, set_message] = useState('');
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -22,15 +22,14 @@ const Post = () => {
     id,
   });
 
-  const [deletePost, { isLoading: isDeletePostLoading }] =
-    useDeletePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
   const delete_post = async () => {
     try {
-      const res = await deletePost({ token: user_info.token, id }).unwrap();
-      console.log(res);
-    } catch (error) {
-      set_err(err?.data?.message || err.error);
+      await deletePost({ token: user_info.token, id }).unwrap();
+      navigate('/');
+    } catch (err) {
+      set_message(err?.data?.message || err.error);
     }
   };
 
@@ -48,12 +47,13 @@ const Post = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
+          {message && <Message variant="danger">{message}</Message>}
           <PostCard post={data} />
           <div>
             <Button onClick={() => navigate(`/post/${data._id}/edit`)}>
               Edit
             </Button>
-            <Button variant="danger" onClick={() => delete_post}>
+            <Button variant="danger" onClick={() => delete_post()}>
               Delete
             </Button>
           </div>

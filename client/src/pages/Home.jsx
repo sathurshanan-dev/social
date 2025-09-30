@@ -13,7 +13,7 @@ const Landing = () => {
 
   const navigate = useNavigate();
 
-  const { data, isLoading, error } = usePostsQuery({token: user_info.token});
+  const { data, isLoading, error } = usePostsQuery({ token: user_info?.token });
 
   useEffect(() => {
     if (!user_info) {
