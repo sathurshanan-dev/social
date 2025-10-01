@@ -1,4 +1,5 @@
 import express from 'express';
+import auth from '../middleware/auth.js';
 import {
   posts,
   post,
@@ -7,7 +8,6 @@ import {
   delete_post,
   like,
 } from '../controllers/post.js';
-import auth from '../middleware/auth.js';
 
 const router = express.Router();
 

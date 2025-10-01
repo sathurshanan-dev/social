@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
 import { useRegisterMutation } from '../slices/users_api';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router';
 import { set_login } from '../slices/auth';
 import Message from '../components/Message';
+import FormContainer from '../components/FormContainer';
 
 const Register = () => {
   const [name, set_name] = useState('');

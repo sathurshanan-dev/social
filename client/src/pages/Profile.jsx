@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import FormContainer from '../components/FormContainer';
-import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { useProfileMutation } from '../slices/users_api';
 import { set_login } from '../slices/auth';
+import { Form, Button } from 'react-bootstrap';
+import FormContainer from '../components/FormContainer';
 
 const Profile = () => {
   const [name, set_name] = useState('');

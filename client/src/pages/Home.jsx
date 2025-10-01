@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Container } from 'react-bootstrap';
 import { usePostsQuery } from '../slices/post_api';
-import { Stack } from 'react-bootstrap';
+import { Container, Stack } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import PostCard from '../components/PostCard';

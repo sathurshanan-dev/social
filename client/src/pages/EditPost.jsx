@@ -1,11 +1,11 @@
 import { usePostQuery, useEditPostMutation } from '../slices/post_api';
 import { useParams, useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { Container, Form, Button } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { useSelector } from 'react-redux';
-import { Container, Form, Button } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
-import { useState, useEffect } from 'react';
 
 const EditPost = () => {
   const [text, set_text] = useState('');
@@ -26,7 +26,7 @@ const EditPost = () => {
   const submit_handler = async (event) => {
     event.preventDefault();
     try {
-      const res = await editPost({ token: user_info.token, id, text }).unwrap();
+      await editPost({ token: user_info.token, id, text }).unwrap();
     } catch (error) {
       set_message(error?.data?.message || err.error);
     }

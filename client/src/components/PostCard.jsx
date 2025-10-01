@@ -1,3 +1,6 @@
+import { Link, useNavigate } from 'react-router';
+import { useLikeMutation } from '../slices/post_api';
+import { useSelector } from 'react-redux';
 import {
   BsHandThumbsUp,
   BsChat,
@@ -5,9 +8,6 @@ import {
   BsHandThumbsUpFill,
 } from 'react-icons/bs';
 import { Card, Row, Col, Badge } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router';
-import { useLikeMutation } from '../slices/post_api';
-import { useSelector } from 'react-redux';
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate();

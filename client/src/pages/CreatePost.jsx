@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
+import { Form, Button } from 'react-bootstrap';
 import { useCreatePostMutation } from '../slices/post_api';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import Message from '../components/Message';
+import FormContainer from '../components/FormContainer';
 
 const CreatePost = () => {
   const [text, set_text] = useState('');

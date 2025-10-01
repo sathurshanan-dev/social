@@ -32,6 +32,7 @@ export const post_api_slice = api_slice.injectEndpoints({
         },
         body: { text },
       }),
+      invalidatesTags: ['Posts'],
     }),
     editPost: builder.mutation({
       query: ({ token, id, text }) => ({

@@ -1,13 +1,13 @@
 import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
-import PostCard from '../components/PostCard';
 import { usePostQuery } from '../slices/post_api';
 import { Container, Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useDeletePostMutation } from '../slices/post_api';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { useDeletePostMutation } from '../slices/post_api';
+import PostCard from '../components/PostCard';
 
 const Post = () => {
   const [message, set_message] = useState('');
@@ -22,7 +22,7 @@ const Post = () => {
     id,
   });
 
-  const [deletePost] = useDeletePostMutation();
+  const [deletePost, { isLoading: isDeleteLoading }] = useDeletePostMutation();
 
   const delete_post = async () => {
     try {
@@ -57,7 +57,11 @@ const Post = () => {
             >
               Edit
             </Button>
-            <Button variant="danger" onClick={() => delete_post()}>
+            <Button
+              disabled={isDeleteLoading}
+              variant="danger"
+              onClick={() => delete_post()}
+            >
               Delete
             </Button>
           </div>
