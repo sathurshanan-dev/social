@@ -18,7 +18,7 @@ const Post = () => {
   const { user_info } = useSelector((state) => state.auth);
 
   const { data, isLoading, error } = usePostQuery({
-    token: user_info.token,
+    token: user_info?.token,
     id,
   });
 
@@ -49,8 +49,12 @@ const Post = () => {
         <>
           {message && <Message variant="danger">{message}</Message>}
           <PostCard post={data} />
-          <div>
-            <Button onClick={() => navigate(`/post/${data._id}/edit`)}>
+          <div className="d-flex mt-2 justify-content-center">
+            <Button
+              variant="primary"
+              className="me-2"
+              onClick={() => navigate(`/post/${data._id}/edit`)}
+            >
               Edit
             </Button>
             <Button variant="danger" onClick={() => delete_post()}>

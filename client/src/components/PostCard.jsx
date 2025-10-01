@@ -1,10 +1,17 @@
-import { BsHandThumbsUp, BsChat, BsShare } from 'react-icons/bs';
+import {
+  BsHandThumbsUp,
+  BsChat,
+  BsShare,
+  BsHandThumbsUpFill,
+} from 'react-icons/bs';
 import { Card, Row, Col, Badge } from 'react-bootstrap';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useLikeMutation } from '../slices/post_api';
 import { useSelector } from 'react-redux';
 
 const PostCard = ({ post }) => {
+  const navigate = useNavigate();
+
   const { user_info } = useSelector((state) => state.auth);
 
   const [like] = useLikeMutation();
@@ -18,11 +25,20 @@ const PostCard = ({ post }) => {
       <Col className="col-sm-12 col-lg-8 col-xl-6">
         <Card>
           <Card.Body>
-            <Card.Text style={{ marginBottom: '2rem' }}>{post.text}</Card.Text>
+            <Card.Text
+              style={{ marginBottom: '2rem', cursor: 'pointer' }}
+              onClick={() => navigate(`/post/${post._id}`)}
+            >
+              {post.text}
+            </Card.Text>
             <Row>
               <Col>
                 <Card.Link as={Link} onClick={like_post}>
-                  <BsHandThumbsUp size="1.5em" />
+                  {post.likes.includes(user_info._id) ? (
+                    <BsHandThumbsUpFill size="1.5rem" />
+                  ) : (
+                    <BsHandThumbsUp size="1.5em" />
+                  )}
                 </Card.Link>
                 {post.likes.length > 0 && (
                   <Badge pill>{post.likes.length} </Badge>

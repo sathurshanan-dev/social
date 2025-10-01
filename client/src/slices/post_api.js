@@ -21,6 +21,7 @@ export const post_api_slice = api_slice.injectEndpoints({
         },
       }),
       keepUnusedDataFor: 5,
+      providesTags: ['Post'],
     }),
     createPost: builder.mutation({
       query: ({ token, text }) => ({
@@ -31,6 +32,17 @@ export const post_api_slice = api_slice.injectEndpoints({
         },
         body: { text },
       }),
+    }),
+    editPost: builder.mutation({
+      query: ({ token, id, text }) => ({
+        url: `${POSTS_URL}/${id}`,
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: { text },
+      }),
+      invalidatesTags: ['Post'],
     }),
     deletePost: builder.mutation({
       query: ({ token, id }) => ({
@@ -59,6 +71,7 @@ export const {
   usePostsQuery,
   usePostQuery,
   useCreatePostMutation,
+  useEditPostMutation,
   useDeletePostMutation,
   useLikeMutation,
 } = post_api_slice;

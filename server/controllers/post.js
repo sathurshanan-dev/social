@@ -25,7 +25,23 @@ const create_post = async_handler(async (req, res) => {
     user: req.user._id,
     text: req.body.text,
   });
-  res.status(201).json(post);
+  res.status(200).json(post);
+});
+
+const edit_post = async_handler(async (req, res) => {
+  if (!req.body.text) {
+    res.status(400);
+    throw new Error('Field cannot be empty');
+  }
+  const post = await Post.findById(req.params.id);
+  if (post) {
+    post.text = req.body.text;
+    await post.save();
+    res.status(201).json(post);
+  } else {
+    res.status(401);
+    throw new Error('Post not found');
+  }
 });
 
 const delete_post = async_handler(async (req, res) => {
@@ -56,4 +72,4 @@ const like = async_handler(async (req, res) => {
   }
 });
 
-export { posts, post, create_post, delete_post, like };
+export { posts, post, create_post, edit_post, delete_post, like };
