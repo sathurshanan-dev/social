@@ -12,11 +12,19 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/users', user_routes);
-app.use("/api/posts", post_routes);
+app.use('/api/posts', post_routes);
 
-app.use('/', (req, res) => {
-  res.send('API...');
-});
+if (process.env.NODE_ENV === 'production') {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, '/client/dist')));
+  app.get('/{*any}', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API....');
+  });
+}
 
 app.use(not_found);
 app.use(error_handler);
