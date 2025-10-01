@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import path from 'path';
 import express from 'express';
 import user_routes from './routes/user.js';
 import post_routes from './routes/post.js';
