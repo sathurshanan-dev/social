@@ -1,9 +1,9 @@
-import asyncHandler from 'express-async-handler';
+import async_handler from '../middleware/async_handler.js';
 import generate_token from '../utils/generate_token.js';
 import User from '../models/user.js';
 import Post from '../models/post.js';
 
-const login = asyncHandler(async (req, res) => {
+const login = async_handler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await user.match_password(password))) {
@@ -22,7 +22,7 @@ const login = asyncHandler(async (req, res) => {
   }
 });
 
-const register = asyncHandler(async (req, res) => {
+const register = async_handler(async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     res.status(400);
@@ -55,7 +55,7 @@ const register = asyncHandler(async (req, res) => {
   }
 });
 
-const profile = asyncHandler(async (req, res) => {
+const profile = async_handler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
     const posts = await Post.find({ user: req.user._id });
@@ -66,7 +66,7 @@ const profile = asyncHandler(async (req, res) => {
   }
 });
 
-const update_profile = asyncHandler(async (req, res) => {
+const update_profile = async_handler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
     user.name = req.body.name || user.name;

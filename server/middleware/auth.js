@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
-import asyncHandler from 'express-async-handler';
+import async_handler from '../middleware/async_handler.js';
 import User from '../models/user.js';
 
-const auth = asyncHandler(async (req, res, next) => {
+const auth = async_handler(async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&
