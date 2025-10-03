@@ -57,7 +57,7 @@ const register = asyncHandler(async (req, res) => {
 });
 
 const profile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id).select('-password');
+  const user = await User.findById(req.user._id);
   if (user) {
     const posts = await Post.find({ user: req.user._id });
     res.json(posts);
