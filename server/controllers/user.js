@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import generate_token from '../utils/generate_token.js';
 import User from '../models/user.js';
+import Post from '../models/post.js';
+import mongoose from 'mongoose';
 
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -55,9 +57,10 @@ const register = asyncHandler(async (req, res) => {
 });
 
 const profile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('-password');
+  const user = await User.findById(req.user._id).select('-password');
   if (user) {
-    res.json(user);
+    const posts = await Post.find({ user: req.user._id });
+    res.json(posts);
   } else {
     res.status(404);
     throw new Error('User not found');

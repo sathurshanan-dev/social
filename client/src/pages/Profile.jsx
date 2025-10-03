@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { useProfileMutation } from '../slices/users_api';
+import { useProfileQuery, useUpdateProfileMutation } from '../slices/users_api';
 import { set_login } from '../slices/auth';
-import { Form, Button } from 'react-bootstrap';
-import FormContainer from '../components/FormContainer';
+import { Form, Button, Row, Col, Stack, Container } from 'react-bootstrap';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import PostCard from '../components/PostCard';
 
 const Profile = () => {
   const [name, set_name] = useState('');
@@ -20,12 +22,15 @@ const Profile = () => {
 
   const { user_info } = useSelector((state) => state.auth);
 
-  const [update_profile, { isLoading }] = useProfileMutation();
+  const { data, isLoading, error } = useProfileQuery(user_info?.token);
+
+  const [updateProfile, { isLoading: isUpdateLoading }] =
+    useUpdateProfileMutation();
 
   const submit_handler = async (event) => {
     event.preventDefault();
     try {
-      const res = await update_profile({
+      const res = await updateProfile({
         token: user_info.token,
         data: {
           name,
@@ -60,59 +65,76 @@ const Profile = () => {
   ]);
 
   return (
-    <FormContainer>
-      <h1 className="text-center">@{user_info.username}</h1>
-      <Form onSubmit={submit_handler}>
-        <Form.Group controlId="name" className="my-2">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            value={name}
-            onChange={(event) => set_name(event.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="bio" className="my-2">
-          <Form.Label>Bio</Form.Label>
-          <Form.Control
-            as="textarea"
-            value={bio}
-            onChange={(event) => set_bio(event.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="email" className="my-2">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            value={email}
-            onChange={(event) => set_email(event.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="username" className="my-2">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            value={username}
-            onChange={(event) => set_username(event.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="password" className="my-2">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(event) => set_password(event.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Button
-          type="submit"
-          variant="primary"
-          className="w-100"
-          disabled={isLoading}
-        >
-          Save
-        </Button>
-      </Form>
-    </FormContainer>
+    <Container>
+      <Row>
+        <Col md={3} className="ml-10">
+          <h1 className="text-center">@{user_info.username}</h1>
+          <Form onSubmit={submit_handler}>
+            <Form.Group controlId="name" className="my-2">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={name}
+                onChange={(event) => set_name(event.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="bio" className="my-2">
+              <Form.Label>Bio</Form.Label>
+              <Form.Control
+                as="textarea"
+                value={bio}
+                onChange={(event) => set_bio(event.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="email" className="my-2">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={(event) => set_email(event.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="username" className="my-2">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                value={username}
+                onChange={(event) => set_username(event.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="password" className="my-2">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(event) => set_password(event.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-100"
+              disabled={isUpdateLoading}
+            >
+              Save
+            </Button>
+          </Form>
+        </Col>
+        <Col md={9} className="mt-5">
+          {isLoading ? (
+            <Loader />
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
+            <Stack gap={5}>
+              {data.map((post) => (
+                <PostCard post={post} key={post._id} />
+              ))}
+            </Stack>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

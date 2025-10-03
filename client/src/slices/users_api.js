@@ -17,7 +17,15 @@ export const user_api_slice = api_slice.injectEndpoints({
         body: params,
       }),
     }),
-    profile: builder.mutation({
+    profile: builder.query({
+      query: (params) => ({
+        url: `${USERS_URL}/profile`,
+        headers: {
+          Authorization: `Bearer ${params}`,
+        },
+      }),
+    }),
+    updateProfile: builder.mutation({
       query: ({ token, data }) => ({
         url: `${USERS_URL}/profile`,
         method: 'PUT',
@@ -30,5 +38,9 @@ export const user_api_slice = api_slice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useProfileMutation } =
-  user_api_slice;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useProfileQuery,
+  useUpdateProfileMutation,
+} = user_api_slice;
