@@ -1,7 +1,7 @@
 {
   "name": "Social",
   "version": "1.0.0",
-  "description": "Social networking web application",
+  "description": "Social media web application",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -16,7 +16,6 @@
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
-    "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.2"
   },

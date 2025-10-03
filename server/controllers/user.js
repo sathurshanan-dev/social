@@ -2,7 +2,6 @@ import asyncHandler from 'express-async-handler';
 import generate_token from '../utils/generate_token.js';
 import User from '../models/user.js';
 import Post from '../models/post.js';
-import mongoose from 'mongoose';
 
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
