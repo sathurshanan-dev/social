@@ -55,7 +55,7 @@ const register = async_handler(async (req, res) => {
   }
 });
 
-const profile = async_handler(async (req, res) => {
+const get_profile = async_handler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
     const posts = await Post.find({ user: req.user._id });
@@ -92,4 +92,4 @@ const update_profile = async_handler(async (req, res) => {
   }
 });
 
-export { login, register, profile, update_profile };
+export { login, register, get_profile, update_profile };

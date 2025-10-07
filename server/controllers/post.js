@@ -1,12 +1,12 @@
 import async_handler from '../middleware/async_handler.js';
 import Post from '../models/post.js';
 
-const posts = async_handler(async (req, res) => {
+const get_posts = async_handler(async (req, res) => {
   const posts = await Post.find({});
   res.json(posts);
 });
 
-const post = async_handler(async (req, res) => {
+const get_post = async_handler(async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (post) {
     res.json(post);
@@ -54,7 +54,7 @@ const delete_post = async_handler(async (req, res) => {
   }
 });
 
-const like = async_handler(async (req, res) => {
+const like_post = async_handler(async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (post) {
     if (post.likes.includes(req.user._id)) {
@@ -72,4 +72,4 @@ const like = async_handler(async (req, res) => {
   }
 });
 
-export { posts, post, create_post, edit_post, delete_post, like };
+export { get_posts, get_post, create_post, edit_post, delete_post, like_post };
